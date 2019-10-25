@@ -10,11 +10,11 @@ sleeptime=0
 #pid=$(pidof lua)
 pid=$1
 output=$2
-
+thread=${3:-all}
 
 for x in $(seq 1 $nsamples)
 do
-    gdb -ex "set pagination 0" -ex "thread apply all bt" -batch -p $pid
+    gdb -ex "set pagination 0" -ex "thread apply ${thread} bt" -batch -p $pid
     sleep $sleeptime
 done | awk 'BEGIN { s = ""; }
 /^Thread/ { print s; s = ""; }
